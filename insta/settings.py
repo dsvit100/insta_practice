@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # 위의 데이터를 불러올 경로 지정
 MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'accounts.User'
