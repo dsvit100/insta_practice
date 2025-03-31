@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+<div class="container"></div>
+{% block body %}
+
+{% for post in posts %}
+{% include '_card.html' %}
+{% endfor %}
+
+{% endblock%}
