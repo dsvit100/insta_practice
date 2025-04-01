@@ -1,12 +1,48 @@
-<div class="card text-center">
+{% load django_bootstrap5 %}
+<div class="container">
+  <div class="row justify-content-center">
+  <div class="col-md-6">
+  <div class="card text-center">
     <div class="card-header">
-      username
+      <!-- username -->
+      <img class="rounded-circle" src="{{post.user.profile_image.url}}" alt="" width="30px">
+      <a href="{% url 'accounts:profile' post.user.username %}" class="text-reset text-decoration-none">{{post.user.username}}</a>
     </div>
     <img src="{{post.image.url}}" class="" alt="...">
+    
     <div class="card-body">
-      <p class="card-text">{{post.context}}</p>
+      <a href="{% url 'posts:like' post.id %}" class="text-reset text-decoration-none">
+      {% if user in post.like_users.all %}
+      <i class="bi bi-balloon-heart-fill"></i>
+      {% else %}
+      <i class="bi bi-balloon-heart"></i>
+      {% endif %}
+      </a>
+      <span>{{post.like_users.all|length}}명이 좋아합니다.</span>
+
+      <p class="card-text">{{post.content}}</p>
+      <p>{{post.created_at|timesince}}</p>
     </div>
     <div class="card-footer text-body-secondary">
-      {{post.created_at}}
+      {% if user.is_authenticated %}
+      <form action="{% url 'posts:comment_create' post.id %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-9">
+            {% bootstrap_form form show_label=False wrapper_class='' %}
+          </div>
+          <div class="col-2">
+            <input type="submit">
+          </div>
+        </div>
     </div>
+      </form>
+      {% endif %}
+
+      {% for comment in post.comment_set.all %}
+        <li>{{comment.user}}: {{comment.content}}</li>
+      {% endfor %}
   </div>
+  </div>
+  </div>
+</div>

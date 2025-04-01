@@ -15,3 +15,12 @@ class Post(models.Model):
         crop=['middle', 'center'],
         upload_to='image/%y/%m',
     )
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name = 'like_posts'
+    )
+
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.CharField(max_length=200)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
